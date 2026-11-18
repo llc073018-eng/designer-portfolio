@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设计师姓名 · 室内设计作品集</title>
+<style>
+/* ===== 白色主调（参考 JustEasy 微官网的浅色极简风格，黄铜代替橙色点缀） ===== */
+:root{
+  --bg:#FFFFFF; --bg2:#FAFAF8; --card:#FFFFFF; --grey:#F5F4F1;
+  --text:#1A1A1A; --text2:#333333; --muted:#8A8580;
+  --brass:#B08D57; --line:#E5E2DC; --line2:#D8D3C8; --err:#C0695A;
+  --serif:"Noto Serif SC","Songti SC","STSong",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --max:1280px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;font-size:16px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font-family:var(--sans);cursor:pointer;background:none;border:none;color:inherit}
+input,select,textarea{font-family:var(--sans);font-size:15px;color:var(--text);background:var(--bg);border:1px solid var(--line2);padding:11px 12px;width:100%;outline:none;border-radius:0}
+input:focus,select:focus,textarea:focus{border-color:var(--brass)}
+textarea{resize:vertical;min-height:96px;line-height:1.6}
+select option{background:var(--card)}
+h1,h2,h3,.serif{font-family:var(--serif);font-weight:400;line-height:1.25}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+section{padding:72px 0}
+.sec-kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.sec-title{font-size:40px;margin-bottom:12px}
+.sec-sub{color:var(--muted);font-size:15px}
+.hr{height:1px;background:var(--line);border:none;margin:0}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;color:var(--muted);border:1px solid var(--line2);padding:5px 12px;margin:0 8px 8px 0}
+.btn{display:inline-block;border:1px solid var(--line2);color:var(--text);padding:12px 28px;font-size:14px;letter-spacing:.14em;transition:border-color .25s,color .25s,opacity .25s;background:transparent;text-align:center}
+.btn:hover{border-color:var(--brass);color:var(--brass)}
+.btn-brass{border-color:var(--brass);color:var(--brass)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-sm{padding:8px 16px;font-size:13px}
+.err{color:var(--err);font-size:13px;margin-top:6px;min-height:18px;display:block}
+label{display:block;font-size:13px;letter-spacing:.1em;color:var(--muted);margin:18px 0 8px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+/* ===== 视图：顶部（黑色 LOGO 方块 + 名称 + 导航 + 账号区） ===== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);transition:box-shadow .3s}
+.nav.scrolled{box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:0 32px;height:76px;display:flex;align-items:center;gap:28px}
+.logo-block{width:48px;height:48px;background:#1A1A1A;color:#fff;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:17px;letter-spacing:.05em;text-align:center;line-height:1.2}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.04em;white-space:nowrap;line-height:1.3}
+.brand small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.18em;color:var(--muted)}
+.brand-contact{font-size:12px;color:var(--muted);line-height:1.7;white-space:nowrap}
+.brand-contact b{color:var(--text2);font-weight:400}
+.nav-links{display:flex;gap:34px;margin-left:auto}
+.nav-links a{font-size:15px;letter-spacing:.1em;color:var(--text2);padding:8px 2px;border-bottom:2px solid transparent;transition:color .25s,border-color .25s;white-space:nowrap}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.on{color:var(--text);border-bottom-color:var(--brass)}
+.acct{position:relative;display:flex;align-items:center;gap:10px;flex:none}
+.acct-btn{font-size:14px;letter-spacing:.1em;border:1px solid var(--line2);padding:8px 18px;transition:border-color .25s}
+.acct-btn:hover{border-color:var(--brass);color:var(--brass)}
+.avatar{width:36px;height:36px;border-radius:50%;border:1px solid var(--brass);display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--grey);overflow:hidden;flex:none;color:var(--text)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.acct-name{font-size:14px;white-space:nowrap}
+.dropdown{position:absolute;top:48px;right:0;background:var(--card);border:1px solid var(--line);min-width:180px;display:none;z-index:120;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.dropdown.open{display:block}
+.dropdown a,.dropdown button{display:block;width:100%;text-align:left;padding:12px 18px;font-size:14px;color:var(--text);transition:color .25s}
+.dropdown a:hover,.dropdown button:hover{color:var(--brass)}
+#storeWarn{display:none;background:#FBF3E2;color:#8A6D2B;font-size:13px;text-align:center;padding:8px 16px;position:fixed;top:76px;left:0;right:0;z-index:99}
+/* ===== 视图：横幅 ===== */
+.banner{background:var(--bg2);border-bottom:1px solid var(--line);padding:64px 0 48px;margin-top:76px;text-align:center}
+.banner h1{font-size:clamp(40px,5.5vw,60px)}
+.banner .banner-sub{color:var(--muted);font-size:15px;margin-top:12px;letter-spacing:.06em}
+.banner-stats{display:flex;gap:48px;margin-top:32px;flex-wrap:wrap;justify-content:center}
+.banner-stats b{font-family:var(--serif);font-weight:400;font-size:34px;display:block}
+.banner-stats span{color:var(--muted);font-size:13px;letter-spacing:.12em}
+/* ===== 视图：作品展示 ===== */
+.search-row{display:flex;gap:12px;max-width:640px;margin:36px 0 8px}
+.search-row input{flex:1}
+.search-row .btn{flex:none}
+.filters{display:flex;gap:28px;flex-wrap:wrap;margin:28px 0 32px}
+.filters button{font-size:14px;letter-spacing:.14em;color:var(--muted);padding-bottom:6px;border-bottom:2px solid transparent;transition:color .25s,border-color .25s}
+.filters button.on{color:var(--text);border-bottom-color:var(--brass)}
+.works-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.work-card{background:var(--card);border:1px solid var(--line);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity .3s,border-color .25s}
+.work-card:hover{border-color:var(--brass)}
+.work-cover{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--grey)}
+.work-cover img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.work-card:hover .work-cover img{transform:scale(1.03)}
+.work-cover .cover-name{position:absolute;left:16px;bottom:12px;font-family:var(--serif);font-size:17px;color:#fff;opacity:0;transition:opacity .3s;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.work-card:hover .cover-name{opacity:1}
+.work-views{position:absolute;top:10px;left:12px;font-size:12px;color:#fff;background:rgba(0,0,0,.45);padding:2px 8px;letter-spacing:.06em}
+.fav-btn{position:absolute;top:10px;right:10px;width:36px;height:36px;background:rgba(255,255,255,.9);border:1px solid var(--line2);border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;transition:border-color .25s}
+.fav-btn svg{width:17px;height:17px;fill:none;stroke:#1A1A1A;stroke-width:1.5}
+.fav-btn.on svg{fill:var(--brass);stroke:var(--brass)}
+.fav-btn:hover{border-color:var(--brass)}
+.work-body{padding:18px 18px 20px}
+.work-body h3{font-size:19px;margin-bottom:8px}
+.work-tags{color:var(--muted);font-size:13px;letter-spacing:.06em}
+.work-views-line{color:var(--muted);font-size:12px;margin-top:6px;letter-spacing:.06em}
+.work-link{display:inline-block;margin-top:14px;font-size:14px;letter-spacing:.1em;color:var(--brass)}
+.work-link:hover{text-decoration:underline}
+.work-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px}
+.work-links .work-link{margin-top:0}
+.work-links .no-plans{color:var(--muted);font-size:13px;letter-spacing:.1em}
+.pano-link{display:inline-block;margin-top:14px;margin-left:16px;font-size:14px;letter-spacing:.1em;color:var(--text2);border:1px solid var(--line2);padding:6px 12px;transition:border-color .25s,color .25s}
+.pano-link:hover{border-color:var(--brass);color:var(--brass)}
+.empty{border:1px dashed var(--line2);padding:56px 24px;text-align:center;color:var(--muted);background:var(--bg2)}
+.empty a{color:var(--brass)}
+.pager{display:flex;gap:8px;align-items:center;justify-content:center;margin:44px 0 8px;flex-wrap:wrap}
+.pager button{border:1px solid var(--line2);padding:8px 14px;font-size:13px;letter-spacing:.08em;transition:border-color .25s,color .25s}
+.pager button:hover{border-color:var(--brass);color:var(--brass)}
+.pager button.on{border-color:var(--brass);color:var(--brass)}
+.pager button:disabled{opacity:.4;cursor:not-allowed}
+.pager .count{color:var(--muted);font-size:13px;margin-left:12px}
+/* ===== 视图：作品案例 / 商品图集 ===== */
+.case-list{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.case-card{background:var(--card);border:1px solid var(--line);padding:24px;display:flex;gap:20px;align-items:flex-start}
+.case-card img{width:160px;height:120px;object-fit:cover;flex:none;border-radius:2px}
+.case-card h3{font-size:20px;margin-bottom:8px}
+.case-card p{color:var(--muted);font-size:14px}
+/* ===== 视图：个人资料 ===== */
+.profile-grid{display:grid;grid-template-columns:5fr 7fr;gap:72px;align-items:start}
+.profile-img{aspect-ratio:4/5;overflow:hidden;border-radius:2px;background:var(--grey)}
+.profile-img img{width:100%;height:100%;object-fit:cover}
+.profile-name{font-size:36px}
+.profile-meta{color:var(--muted);font-size:14px;margin:10px 0 20px;letter-spacing:.08em}
+.profile-intro{color:var(--text2);margin-bottom:16px;font-size:15px}
+.profile-philo{font-family:var(--serif);font-size:26px;line-height:1.5;margin-top:32px;padding-top:28px;border-top:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.step{padding:0 24px;border-left:1px solid var(--line)}
+.step:first-child{border-left:none;padding-left:0}
+.step b{font-family:var(--serif);font-weight:400;font-size:15px;color:var(--brass);letter-spacing:.1em}
+.step h3{font-size:20px;margin:14px 0 10px}
+.step p{color:var(--muted);font-size:14px}
+.contact-grid{display:grid;grid-template-columns:7fr 5fr;gap:72px;align-items:start}
+.contact-big{font-size:clamp(36px,4.5vw,52px)}
+.contact-list{margin-top:36px}
+.contact-list a,.contact-list div{display:block;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.contact-list span{color:var(--muted);font-size:13px;letter-spacing:.12em;display:inline-block;width:72px}
+.qr{width:180px;height:180px;border:1px solid var(--line);background:var(--grey);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;letter-spacing:.14em;text-align:center}
+.qr img{width:180px;height:180px;object-fit:cover}
+.avail{color:var(--muted);font-size:14px;margin-top:18px}
+/* ===== 视图：弹窗 / 详情 / 图集 ===== */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto}
+.modal-bg.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--line);width:100%;max-width:420px;padding:32px;position:relative;box-shadow:0 16px 48px rgba(0,0,0,.14)}
+.modal h2{font-size:26px;margin-bottom:6px}
+.modal .x{position:absolute;top:14px;right:16px;font-size:24px;color:var(--muted);line-height:1}
+.tabs{display:flex;border-bottom:1px solid var(--line);margin:20px 0 6px}
+.tabs button{flex:1;padding:12px;font-size:14px;letter-spacing:.14em;color:var(--muted);border-bottom:2px solid transparent}
+.tabs button.on{color:var(--text);border-bottom-color:var(--brass)}
+.check{display:flex;align-items:flex-start;gap:10px;margin-top:18px;font-size:13px;color:var(--muted);cursor:pointer}
+.check input{width:auto;margin-top:3px;accent-color:var(--brass)}
+.linklike{color:var(--brass);font-size:13px}
+.detail{position:fixed;inset:0;background:rgba(255,255,255,.98);z-index:180;display:none;overflow-y:auto}
+.detail.open{display:block}
+.detail-in{max-width:1000px;margin:0 auto;padding:80px 32px 60px}
+.detail-in h2{font-size:40px}
+.detail-meta{color:var(--muted);margin:12px 0 32px;letter-spacing:.08em}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:32px}
+.spec div{padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.spec div:nth-child(odd){color:var(--muted);font-size:13px;letter-spacing:.1em}
+.detail-desc{color:var(--text2);margin-bottom:40px}
+.gallery img{width:100%;aspect-ratio:3/2;object-fit:cover;margin-bottom:24px;cursor:pointer;border-radius:2px}
+.detail-nav{display:flex;justify-content:space-between;gap:16px;margin-top:8px}
+.detail-x{position:fixed;top:20px;right:28px;font-size:32px;color:var(--text);z-index:190;line-height:1}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:300;display:none;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:92vw;max-height:88vh;object-fit:contain}
+.lb-btn{position:absolute;top:50%;transform:translateY(-50%);font-size:40px;color:#fff;padding:12px}
+.lb-prev{left:16px}.lb-next{right:16px}.lb-x{position:absolute;top:18px;right:24px;font-size:32px;color:#fff}
+.toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);background:#1A1A1A;color:#fff;border:1px solid #1A1A1A;padding:12px 24px;font-size:14px;z-index:400;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.view{display:none}
+.view.open{display:block}
+.crumb{padding:32px 0 0;color:var(--muted);font-size:13px;letter-spacing:.1em}
+.crumb a{color:var(--brass)}
+.acct-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin:24px 0 32px}
+.acct-head h1{font-size:36px}
+.profile-card{display:flex;gap:28px;align-items:center;background:var(--card);border:1px solid var(--line);padding:28px;margin-bottom:32px;flex-wrap:wrap}
+.profile-card .avatar{width:88px;height:88px;font-size:32px;cursor:pointer}
+.profile-card .role{font-size:12px;letter-spacing:.14em;padding:4px 10px;border:1px solid var(--line2);color:var(--muted)}
+.profile-card .role.admin{color:var(--brass);border-color:var(--brass)}
+.acct-tabs{display:flex;gap:28px;border-bottom:1px solid var(--line);margin-bottom:32px;flex-wrap:wrap}
+.acct-tabs button{padding:12px 2px;font-size:14px;letter-spacing:.12em;color:var(--muted);border-bottom:2px solid transparent}
+.acct-tabs button.on{color:var(--text);border-bottom-color:var(--brass)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+.form-grid .full{grid-column:1/-1}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.mini-card{background:var(--card);border:1px solid var(--line);overflow:hidden}
+.mini-card img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.mini-card .b{padding:16px}
+.mini-card h4{font-family:var(--serif);font-size:18px;font-weight:400}
+.mini-card p{color:var(--muted);font-size:13px;margin:6px 0 12px}
+.inq{border:1px solid var(--line);background:var(--card);padding:18px 20px;margin-bottom:14px}
+.inq .st{float:right;font-size:12px;letter-spacing:.12em;padding:3px 10px;border:1px solid var(--line2);color:var(--muted)}
+.inq .st.done{color:var(--brass);border-color:var(--brass)}
+.inq time{color:var(--muted);font-size:13px}
+.admin-row{display:grid;grid-template-columns:72px 1.6fr .7fr .7fr .8fr .6fr .8fr 1.6fr;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.admin-row.head{color:var(--muted);font-size:12px;letter-spacing:.12em}
+.admin-row img{width:72px;height:48px;object-fit:cover;border-radius:2px}
+.admin-row .acts{display:flex;gap:8px;flex-wrap:wrap}
+.admin-row .acts button{font-size:12px;border:1px solid var(--line2);padding:5px 9px;letter-spacing:.06em}
+.admin-row .acts button:hover{border-color:var(--brass);color:var(--brass)}
+.status-pill{font-size:12px;letter-spacing:.1em}
+.status-pill.pub{color:var(--brass)}.status-pill.draft{color:var(--muted)}
+.sub-admin{border:1px solid var(--line);padding:24px;margin-bottom:32px;background:var(--bg2)}
+.sub-admin h3{font-size:22px;margin-bottom:8px}
+/* ===== 视图：页脚 / 悬浮快捷入口 ===== */
+footer{border-top:1px solid var(--line);padding:48px 0 32px;background:var(--bg2)}
+.foot-in{max-width:var(--max);margin:0 auto;padding:0 32px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+.foot-in a{margin-left:24px}
+.foot-in a:hover{color:var(--brass)}
+.foot-small{text-align:center;color:var(--muted);font-size:12px;letter-spacing:.14em;margin-top:36px}
+.float-btns{position:fixed;right:20px;bottom:24px;z-index:90;display:flex;flex-direction:column;gap:10px}
+.float-btns button{background:var(--card);border:1px solid var(--line2);font-size:12px;letter-spacing:.08em;padding:10px 14px;box-shadow:0 4px 16px rgba(0,0,0,.08);transition:border-color .25s,color .25s}
+.float-btns button:hover{border-color:var(--brass);color:var(--brass)}
+@media (max-width:1199px){
+  .works-grid{grid-template-columns:repeat(3,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr);gap:32px 0}
+  .step{border-left:none;padding-left:0}
+  .admin-row{grid-template-columns:64px 1.4fr .6fr .6fr .7fr 1.4fr}
+  .admin-row .hide-t{display:none}
+  .brand-contact{display:none}
+}
+@media (max-width:767px){
+  body{font-size:15px}
+  .wrap{padding:0 20px}
+  section{padding:48px 0}
+  .sec-title{font-size:32px}
+  .nav-in{padding:10px 20px;gap:12px;height:auto;min-height:64px;flex-wrap:wrap}
+  .nav-links{gap:18px;margin-left:0;order:3;width:100%;overflow-x:auto}
+  .acct-name{display:none}
+  .banner{margin-top:104px;padding:40px 0 32px}
+  .profile-grid,.contact-grid{grid-template-columns:1fr;gap:40px}
+  .works-grid{grid-template-columns:1fr}
+  .case-list{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .step{padding:0 0 28px;border-left:1px solid var(--line);padding-left:20px}
+  .form-grid,.mini-grid{grid-template-columns:1fr}
+  .spec{grid-template-columns:1fr}
+  .detail-in{padding:64px 20px 40px}
+  .detail-in h2{font-size:30px}
+  .admin-row{grid-template-columns:56px 1fr 1fr;gap:8px}
+  .admin-row .hide-m{display:none}
+  .modal{padding:24px}
+  .modal-bg{padding:24px 12px}
+  .float-btns{right:12px;bottom:16px}
+}
+</style>
+</head>
+<body>
+<div id="storeWarn">当前环境无法保存数据，登录状态不会保留</div>
+<!-- ===== 视图：顶部 ===== -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <div class="logo-block">设计<br>师</div>
+    <a class="brand" href="#/home">设计师姓名<small>INTERIOR DESIGN STUDIO</small></a>
+    <div class="brand-contact"><b>电话</b> 138-****-0000<br><b>微信</b> studio_wechat</div>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#/home" data-nav="home">作品展示</a>
+      <a href="#/cases" data-nav="cases">作品案例</a>
+      <a href="#/goods" data-nav="goods">商品图集</a>
+      <a href="#/profile" data-nav="profile">个人资料</a>
+    </nav>
+    <div class="acct" id="acctArea"></div>
+  </div>
+</header>
+
+<!-- ===== 视图：横幅 ===== -->
+<div class="banner"><div class="wrap">
+  <p class="sec-kicker">3D RENDERING WORKS</p>
+  <h1 id="bannerTitle">3D渲染作品</h1>
+  <p class="banner-sub">设计师姓名 · 室内设计工作室 — 用空间讲述生活，让每个房间都有呼吸感</p>
+  <div class="banner-stats">
+    <div><b id="statWorks">0</b><span>作品数量</span></div>
+    <div><b id="statViews">0</b><span>人气</span></div>
+    <div><b>12</b><span>年经验</span></div>
+    <div><b>86</b><span>落地项目</span></div>
+  </div>
+</div></div>
+
+<!-- ===== 视图：作品展示 ===== -->
+<main class="view open" id="view-home">
+  <section id="works"><div class="wrap">
+    <p class="sec-kicker reveal">WORKS</p>
+    <h2 class="sec-title reveal">作品展示</h2>
+    <p class="sec-sub reveal">每一套方案，都是一次对生活的重新理解。点开作品，可进入 360° 全景链接。</p>
+    <div class="search-row">
+      <input id="searchInput" type="text" placeholder="请输入搜索作品名称" aria-label="搜索作品名称">
+      <button class="btn btn-brass" id="searchBtn">搜索</button>
+    </div>
+    <div class="filters" id="filters" role="tablist"></div>
+    <div class="works-grid" id="worksGrid"></div>
+    <div class="pager" id="pager"></div>
+  </div></section>
+</main>
+
+<!-- ===== 视图：作品案例 ===== -->
+<main class="view" id="view-cases">
+  <section><div class="wrap">
+    <p class="sec-kicker">CASES</p>
+    <h2 class="sec-title">作品案例</h2>
+    <p class="sec-sub">已落地的完整项目案例，含施工前后对比与交付记录。</p>
+    <div id="casesBody" style="margin-top:36px"></div>
+  </div></section>
+</main>
+
+<!-- ===== 视图：商品图集 ===== -->
+<main class="view" id="view-goods">
+  <section><div class="wrap">
+    <p class="sec-kicker">GOODS</p>
+    <h2 class="sec-title">商品图集</h2>
+    <p class="sec-sub">方案中使用的家具、灯具与软装单品图集。</p>
+    <div id="goodsBody" style="margin-top:36px"></div>
+  </div></section>
+</main>
+
+<!-- ===== 视图：个人资料 ===== -->
+<main class="view" id="view-profile">
+  <section id="about"><div class="wrap">
+    <div class="profile-grid">
+      <div class="profile-img reveal"><img id="portraitImg" alt="设计师工作照"></div>
+      <div class="reveal">
+        <p class="sec-kicker">PROFILE</p>
+        <h2 class="profile-name">设计师姓名</h2>
+        <p class="profile-meta">室内设计师 · 从业 12 年 · 地区：某某</p>
+        <span class="tag">现代简约</span><span class="tag">侘寂</span><span class="tag">轻奢</span><span class="tag">新中式</span>
+        <p class="profile-intro" style="margin-top:20px">我相信好的空间不是装饰的堆砌，而是生活的容器。十二年来，我坚持从居住者的日常出发，先理解人，再谈设计——光线、动线、收纳与材质，都要为真实的生活服务。</p>
+        <p class="profile-intro">我的项目大多是旧屋改造与新居全案，擅长在有限的面积里做出克制而温暖的秩序。每一套方案都会反复推敲平面与效果图，直到落地那一刻，图纸上的样子真的长进生活里。</p>
+        <p class="profile-philo">“空间不必讨好所有人，只需安放一种生活。”</p>
+        <p class="profile-intro" style="margin-top:24px">微信：studio_wechat · 抖音直播号：某某 · 效果图合作可私</p>
+      </div>
+    </div>
+  </div></section>
+  <hr class="hr">
+  <section id="process"><div class="wrap">
+    <p class="sec-kicker reveal">PROCESS</p>
+    <h2 class="sec-title reveal">服务流程</h2>
+    <div class="steps" style="margin-top:48px" id="steps"></div>
+  </div></section>
+  <hr class="hr">
+  <section id="contact"><div class="wrap">
+    <div class="contact-grid">
+      <div class="reveal">
+        <h2 class="contact-big">有项目想聊？<br>CONTACT</h2>
+        <div class="contact-list" id="contactList"></div>
+        <form id="inqForm" novalidate style="margin-top:40px">
+          <label for="inqName">姓名</label>
+          <input id="inqName" type="text" autocomplete="name">
+          <span class="err" id="e-inqName"></span>
+          <label for="inqContact">联系方式</label>
+          <input id="inqContact" type="text" placeholder="手机号或邮箱" autocomplete="tel">
+          <span class="err" id="e-inqContact"></span>
+          <label for="inqContent">项目需求</label>
+          <textarea id="inqContent" placeholder="简单说说你的房子、面积与想要的感觉"></textarea>
+          <span class="err" id="e-inqContent"></span>
+          <div style="margin-top:24px"><button class="btn btn-brass" type="submit" id="inqSubmit">提交咨询</button></div>
+        </form>
+      </div>
+      <div class="reveal">
+        <div class="qr" id="qrBox">微信二维码<br>占位</div>
+        <p class="avail">档期提示：2026 年 3 月起可接新项目</p>
+      </div>
+    </div>
+  </div></section>
+</main>
+
+<!-- ===== 视图：个人中心 ===== -->
+<div class="view" id="view-account">
+  <div class="wrap">
+    <p class="crumb"><a href="#/home">首页</a> / 个人中心</p>
+    <div class="acct-head">
+      <h1>个人中心</h1>
+      <button class="btn btn-sm" id="acctLogoutBtn">退出登录</button>
+    </div>
+    <div id="accountBody" style="padding-bottom:72px"></div>
+  </div>
+</div>
+
+<!-- ===== 视图：页脚 ===== -->
+<footer>
+  <div class="foot-in">
+    <span>© 2026 设计师姓名 · 室内设计工作室</span>
+    <span><a href="#" onclick="return false">关于我们</a><a href="#" onclick="return false">帮助中心</a><a href="#" onclick="return false">版权保护</a><a href="#" onclick="return false">用户协议</a></span>
+  </div>
+  <p class="foot-small">Designed &amp; Built with care</p>
+</footer>
+
+<!-- ===== 视图：悬浮快捷入口 ===== -->
+<div class="float-btns">
+  <button id="floatMobile" type="button">手机微官网</button>
+  <button id="floatContact" type="button">预约联系</button>
+  <button id="floatTop" type="button">回到顶部</button>
+</div>
+
+<!-- ===== 视图：登录/注册弹窗 ===== -->
+<div class="modal-bg" id="authModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="x" id="authX" aria-label="关闭">×</button>
+    <h2 id="authTitle">登录</h2>
+    <p class="sec-sub" style="font-size:13px">登录后可收藏作品、提交咨询、管理个人资料。</p>
+    <div class="tabs">
+      <button id="tabLogin" class="on">登录</button>
+      <button id="tabRegister">注册</button>
+    </div>
+    <form id="loginForm" novalidate>
+      <label for="loginAccount">账号（手机号或邮箱）</label>
+      <input id="loginAccount" type="text" autocomplete="username">
+      <span class="err" id="e-loginAccount"></span>
+      <label for="loginPw">密码</label>
+      <input id="loginPw" type="password" autocomplete="current-password">
+      <span class="err" id="e-loginPw"></span>
+      <label class="check"><input type="checkbox" id="rememberMe" checked> 记住我</label>
+      <div style="margin-top:22px"><button class="btn btn-brass" type="submit" id="loginBtn" style="width:100%">登录</button></div>
+      <p style="text-align:center;margin-top:16px"><button type="button" class="linklike" id="forgotPw">忘记密码</button></p>
+    </form>
+    <form id="registerForm" novalidate style="display:none">
+      <label for="regNick">昵称</label>
+      <input id="regNick" type="text" maxlength="12">
+      <span class="err" id="e-regNick"></span>
+      <label for="regAccount">手机号或邮箱</label>
+      <input id="regAccount" type="text" autocomplete="username">
+      <span class="err" id="e-regAccount"></span>
+      <label for="regPw">密码（8–20 位，含字母与数字）</label>
+      <input id="regPw" type="password" autocomplete="new-password">
+      <span class="err" id="e-regPw"></span>
+      <label for="regPw2">确认密码</label>
+      <input id="regPw2" type="password" autocomplete="new-password">
+      <span class="err" id="e-regPw2"></span>
+      <label class="check"><input type="checkbox" id="agreeTerms"> 我已阅读并同意条款</label>
+      <span class="err" id="e-agreeTerms"></span>
+      <div style="margin-top:22px"><button class="btn btn-brass" type="submit" id="regBtn" style="width:100%">创建账号</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== 视图：作品详情 ===== -->
+<div class="detail" id="detailModal" role="dialog" aria-modal="true">
+  <button class="detail-x" id="detailX" aria-label="关闭">×</button>
+  <div class="detail-in" id="detailBody"></div>
+</div>
+
+<!-- ===== 视图：全屏图集 ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lb-x" id="lbX" aria-label="关闭">×</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="上一张">‹</button>
+  <img id="lbImg" alt="效果图">
+  <button class="lb-btn lb-next" id="lbNext" aria-label="下一张">›</button>
+</div>
+
+<!-- ===== 视图：二次确认弹窗 ===== -->
+<div class="modal-bg" id="confirmModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h2 id="confirmTitle" style="font-size:22px">确认删除？</h2>
+    <p class="sec-sub" id="confirmText" style="margin-top:10px"></p>
+    <div id="confirmInputWrap" style="display:none">
+      <label for="confirmInput">请输入你的昵称以确认</label>
+      <input id="confirmInput" type="text">
+      <span class="err" id="e-confirmInput"></span>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:26px">
+      <button class="btn" id="confirmCancel" style="flex:1">取消</button>
+      <button class="btn btn-brass" id="confirmOk" style="flex:1">确认</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="avatarInput" accept="image/jpeg,image/png" style="display:none">
+<input type="file" id="coverInput" accept="image/jpeg,image/png" style="display:none">
+<input type="file" id="galleryInput" accept="image/jpeg,image/png" multiple style="display:none">
+<script>
+/* ================= 配置区（集中替换点） ================= */
+/* IMAGES：图片地址集中定义 — 此处替换为真实图片 URL；本文件所有图片均为占位，不使用任何已发送的图片 */
+function ph(label, bg, fg){
+  var svg = "<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='900'><rect width='1200' height='900' fill='"+bg+"'/><text x='600' y='450' font-family='serif' font-size='42' fill='"+fg+"' text-anchor='middle'>"+label+"</text></svg>";
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+var IMAGES = {
+  portrait: ph("设计师工作照", "#EDEAE2", "#8A8580"),  /* 替换点：个人资料页头像/工作照 */
+  qr: ph("微信二维码", "#F5F4F1", "#8A8580"),          /* 替换点：微信二维码 */
+  work1: ph("作品封面图 · 云栖", "#EFEDE6", "#B08D57"),
+  work2: ph("作品封面图 · 留白", "#EDEAE2", "#8A8580"),
+  work3: ph("作品封面图 · 拾光", "#EFEDE6", "#B08D57"),
+  work4: ph("作品封面图 · 静隅", "#EDEAE2", "#8A8580"),
+  work5: ph("作品封面图 · 序白", "#EFEDE6", "#B08D57"),
+  work6: ph("作品封面图 · 归璞", "#EDEAE2", "#8A8580"),
+  work0: ph("作品封面图 · 静谧东方", "#EFEDE6", "#B08D57"),
+  gallery: ph("作品封面图", "#EDEAE2", "#8A8580")     /* 替换点：图集占位图 */
+};
+/* ADMIN：预置管理员账号（用于更新与上传作品） — 替换点：改成你自己的账号密码 */
+var ADMIN = { account: "hc001", password: "hc123456", nickname: "设计师姓名" };
+/* BANNER_TITLE：网站开头横幅大字默认值 — 管理员也可在后台「作品管理」顶部的“网站横幅设置”里修改，改完即时生效并保存到浏览器 */
+var BANNER_TITLE = "3D渲染作品";
+/* CONTACT：联系方式 — 替换点：手机号 / 邮箱 / 微信号 / 小红书 */
+var CONTACT = {
+  phone: "138-0000-0000",
+  email: "hello@studio.com",
+  wechat: "studio_wechat",
+  xiaohongshu: "https://www.xiaohongshu.com/",
+  xiaohongshuLabel: "小红书主页"
+};
+/* WORKS：示例作品 — 替换点：只改这个数组即可替换全部作品内容。
+   plans：每个作品的三稿效果图链接（一稿 / 二稿 / 三稿，占位链接，替换为真实效果图链接）；
+   link 与 plans[0].url 保持一致（一稿链接，向后兼容旧数据）。
+   panoUrl：每个作品的 360° 全景链接（占位链接，替换为真实全景链接，例如 JustEasy 全景链接） */
+var WORKS = [
+  { id:"w0", name:"静谧东方 · 128㎡ 三居", type:"住宅", area:128, style:"现代简约", city:"某某", year:2026,
+    cover:IMAGES.work0, gallery:[IMAGES.gallery,IMAGES.gallery,IMAGES.gallery],
+    link:"https://example.com/works/jingmi-dongfang/v1", plans:[{label:"一稿",url:"https://example.com/works/jingmi-dongfang/v1"},{label:"二稿",url:"https://example.com/works/jingmi-dongfang/v2"},{label:"三稿",url:"https://example.com/works/jingmi-dongfang/v3"}], panoUrl:"https://example.com/pano/jingmi-dongfang", /* 替换点：该作品的 360° 全景链接 */
+    desc:"静谧东方是一套以东方意境为底色的三居方案：暖米白为底，墨绿收住空间，浅金点到即止。客厅与餐厨打通后，光线可以从阳台一路走到玄关；弧形墙面与木作把视线收圆，住进来的人反而更放松。",
+    spec:{户型:"三室两厅一卫",主材:"橡木地板 · 微水泥 · 白橡木作",色彩:"暖米白 · 墨绿 · 浅金",周期:"设计 45 天 · 施工 4 个月"}, status:"published", order:0 },
+  { id:"w1", name:"云栖 · 120㎡ 三居", type:"住宅", area:120, style:"现代简约", city:"上海", year:2025,
+    cover:IMAGES.work1, gallery:[IMAGES.gallery,IMAGES.gallery,IMAGES.gallery],
+    link:"https://example.com/works/yunqi/v1", plans:[{label:"一稿",url:"https://example.com/works/yunqi/v1"},{label:"二稿",url:"https://example.com/works/yunqi/v2"},{label:"三稿",url:"https://example.com/works/yunqi/v3"}], panoUrl:"https://example.com/pano/yunqi",
+    desc:"三口之家的日常被重新梳理：客厅与餐厅打通后，光线可以从阳台一路走到玄关。墙面只留暖白与木色，收纳全部藏进墙体，让 120㎡ 看起来比实际更大、也更安静。孩子长大后，书房可以随时变成第二间卧室。",
+    spec:{户型:"三室两厅一卫",主材:"橡木地板 · 微水泥 · 白橡木作",色彩:"暖白 · 原木 · 墨绿点缀",周期:"设计 45 天 · 施工 4 个月"}, status:"published", order:1 },
+  { id:"w2", name:"留白 · 89㎡ 两居", type:"住宅", area:89, style:"侘寂", city:"杭州", year:2025,
+    cover:IMAGES.work2, gallery:[IMAGES.gallery,IMAGES.gallery,IMAGES.gallery],
+    link:"https://example.com/works/liubai/v1", plans:[{label:"一稿",url:"https://example.com/works/liubai/v1"},{label:"二稿",url:"https://example.com/works/liubai/v2"},{label:"三稿",url:"https://example.com/works/liubai/v3"}], panoUrl:"https://example.com/pano/liubai",
+    desc:"89㎡ 的小房子，业主只提了一个要求：家里要空一点。于是我们把能拆的墙都拆了，只留一面弧形墙收住视线。粗陶、亚麻、做旧木，材质本身的痕迹就是装饰，住进来的人反而更放松。",
+    spec:{户型:"两室一厅一卫",主材:"原木 · 粗陶 · 亚麻布艺",色彩:"米白 · 陶土 · 深棕",周期:"设计 35 天 · 施工 3 个月"}, status:"published", order:2 },
+  { id:"w3", name:"拾光 · 260㎡ 别墅", type:"别墅", area:260, style:"轻奢", city:"苏州", year:2024,
+    cover:IMAGES.work3, gallery:[IMAGES.gallery,IMAGES.gallery,IMAGES.gallery,IMAGES.gallery],
+    link:"https://example.com/works/shiguang/v1", plans:[{label:"一稿",url:"https://example.com/works/shiguang/v1"},{label:"二稿",url:"https://example.com/works/shiguang/v2"},{label:"三稿",url:"https://example.com/works/shiguang/v3"}], panoUrl:"https://example.com/pano/shiguang",
+    desc:"这是一栋三代同住的别墅，动线是这套方案的核心：一层是长辈的套房与公共区，二层留给年轻夫妇，地下是孩子的活动室。挑高客厅用一面 7 米的书架墙收住气势，黄铜细线在各处轻轻点题。",
+    spec:{户型:"独栋三层",主材:"大理石 · 黄铜 · 胡桃木",色彩:"暖灰 · 香槟金 · 胡桃棕",周期:"设计 60 天 · 施工 8 个月"}, status:"published", order:3 },
+  { id:"w4", name:"静隅 · 精品咖啡馆", type:"商业", area:96, style:"现代简约", city:"成都", year:2024,
+    cover:IMAGES.work4, gallery:[IMAGES.gallery,IMAGES.gallery,IMAGES.gallery],
+    link:"https://example.com/works/jingyu/v1", plans:[{label:"一稿",url:"https://example.com/works/jingyu/v1"},{label:"二稿",url:"https://example.com/works/jingyu/v2"},{label:"三稿",url:"https://example.com/works/jingyu/v3"}], panoUrl:"https://example.com/pano/jingyu",
+    desc:"96㎡ 的街角咖啡馆，业主希望它白天是咖啡馆、晚上是酒吧。我们用一面可开合的木格栅把空间一分为二：白天通透，晚上合上就有了包间感。吧台用整块水磨石现场浇筑，是店里最常被拍照的一角。",
+    spec:{户型:"街角商铺",主材:"水磨石 · 白橡木 · 黑钢",色彩:"暖白 · 原木 · 墨黑",周期:"设计 30 天 · 施工 2 个月"}, status:"published", order:4 },
+  { id:"w5", name:"序白 · 现代办公空间", type:"办公", area:420, style:"现代简约", city:"北京", year:2025,
+    cover:IMAGES.work5, gallery:[IMAGES.gallery,IMAGES.gallery,IMAGES.gallery,IMAGES.gallery],
+    link:"https://example.com/works/xubai/v1", plans:[{label:"一稿",url:"https://example.com/works/xubai/v1"},{label:"二稿",url:"https://example.com/works/xubai/v2"},{label:"三稿",url:"https://example.com/works/xubai/v3"}], panoUrl:"https://example.com/pano/xubai",
+    desc:"一家 30 人设计公司的办公室。我们没有做传统的格子间，而是用高低错落的书架和绿植墙划分出专注区、讨论区和休息区。白色为主，只在会议室用了一面深绿墙，让开会的人不容易走神。",
+    spec:{户型:"整层办公",主材:"白色烤漆 · 铝板 · 地毯",色彩:"纯白 · 浅灰 · 深绿",周期:"设计 40 天 · 施工 3 个月"}, status:"published", order:5 },
+  { id:"w6", name:"归璞 · 新中式茶室", type:"商业", area:68, style:"新中式", city:"南京", year:2024,
+    cover:IMAGES.work6, gallery:[IMAGES.gallery,IMAGES.gallery,IMAGES.gallery],
+    link:"https://example.com/works/guipu/v1", plans:[{label:"一稿",url:"https://example.com/works/guipu/v1"},{label:"二稿",url:"https://example.com/works/guipu/v2"},{label:"三稿",url:"https://example.com/works/guipu/v3"}], panoUrl:"https://example.com/pano/guipu",
+    desc:"68㎡ 的茶室藏在老城区的巷子里。推门先是一面影壁，绕过去才见茶席。深木、宣纸灯、青瓷，全部克制，只留一扇窗框住院子里的竹子。喝茶的人坐下来，第一眼看到的不是装饰，是窗外的绿。",
+    spec:{户型:"临街铺面",主材:"深胡桃木 · 宣纸 · 青瓷",色彩:"墨色 · 宣纸白 · 竹青",周期:"设计 30 天 · 施工 2 个月"}, status:"published", order:6 }
+];
+var STEPS = [
+  { n:"01", t:"需求沟通", d:"聊聊你的房子、家庭与生活方式，明确预算与期望。" },
+  { n:"02", t:"平面方案", d:"两到三稿平面布局，讲清每稿的取舍与造价差异。" },
+  { n:"03", t:"效果图确认", d:"逐空间确认效果图，材质与色彩在这个阶段定下来。" },
+  { n:"04", t:"施工图与选材", d:"全套施工图与主材清单，陪你去选每一块砖与木。" },
+  { n:"05", t:"落地跟进", d:"施工过程定期到场，软装进场后亲自摆场验收。" }
+];
+/* 存储键说明：idp_users 用户 / idp_session 会话 / idp_favorites 收藏 / idp_inquiries 咨询 /
+   idp_works 作品 / idp_views 浏览量 / idp_cases 作品案例 / idp_goods 商品图集（案例与商品为独立键，结构与作品类似） /
+   idp_settings 网站设置（横幅大字等，管理员在后台修改后保存于此） */
+
+/* ================= 存储（统一前缀 idp_） ================= */
+var memFallback = {};
+var storageOK = true;
+try { localStorage.setItem("__t","1"); localStorage.removeItem("__t"); } catch(e){ storageOK = false; }
+function storeGet(k){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return memFallback[k] !== undefined ? memFallback[k] : null; } }
+function storeSet(k, v){ if (storageOK) { try { localStorage.setItem(k, JSON.stringify(v)); return; } catch(e){} } memFallback[k] = v; }
+function hashPw(pw){ /* 简单不可逆混淆，禁止存明文 */ var h = 5381; var s = "idp_salt_" + pw; for (var i=0;i<s.length;i++){ h = ((h<<5)+h + s.charCodeAt(i)) >>> 0; } return "h" + h.toString(16) + "_" + s.length; }
+function uid(p){ return p + "_" + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function nowStr(){ var d = new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }
+
+/* ================= 全局 state ================= */
+var state = {
+  users: [], session: null, favorites: {}, inquiries: [], works: [], views: {}, cases: [], goods: [], settings: { bannerTitle: "" },
+  filter: "全部", query: "", page: 1, route: "home", acctTab: "fav",
+  detailId: null, lbList: [], lbIndex: 0, editWorkId: null,
+  wfCoverData: "", wfGalleryData: []
+};
+var PAGE_SIZE = 16;
+function seed(){
+  if (!storeGet("idp_users")) {
+    storeSet("idp_users", [{ id: uid("u"), account: ADMIN.account, nickname: ADMIN.nickname, password: hashPw(ADMIN.password), role:"admin", bio:"室内设计师，专注住宅与商业空间全案设计。", phone:"138-0000-0000", city:"某某", avatar:"", createdAt: nowStr(), failCount:0, lockUntil:0 }]);
+  }
+  if (!storeGet("idp_works")) storeSet("idp_works", WORKS.map(function(w){ return JSON.parse(JSON.stringify(w)); }));
+  if (!storeGet("idp_favorites")) storeSet("idp_favorites", {});
+  if (!storeGet("idp_inquiries")) storeSet("idp_inquiries", []);
+  if (!storeGet("idp_session")) storeSet("idp_session", null);
+  if (!storeGet("idp_views")) storeSet("idp_views", {});
+  if (!storeGet("idp_cases")) storeSet("idp_cases", []);
+  if (!storeGet("idp_goods")) storeSet("idp_goods", []);
+  if (!storeGet("idp_settings")) storeSet("idp_settings", { bannerTitle: BANNER_TITLE });
+}
+function loadState(){
+  state.users = storeGet("idp_users") || [];
+  state.session = storeGet("idp_session");
+  state.favorites = storeGet("idp_favorites") || {};
+  state.inquiries = storeGet("idp_inquiries") || [];
+  state.works = storeGet("idp_works") || [];
+  /* 迁移旧数据：已保存的作品只有 link、没有 plans 时，把 link 转为一稿，二稿/三稿留空；已有 plans 的作品不动 */
+  var migrated = false;
+  state.works.forEach(function(w){
+    if (!w.plans || !w.plans.length){
+      w.plans = [{label:"一稿",url:w.link||""},{label:"二稿",url:""},{label:"三稿",url:""}];
+      migrated = true;
+    }
+  });
+  if (migrated) storeSet("idp_works", state.works);
+  state.views = storeGet("idp_views") || {};
+  state.cases = storeGet("idp_cases") || [];
+  state.goods = storeGet("idp_goods") || [];
+  state.settings = storeGet("idp_settings") || { bannerTitle: BANNER_TITLE };
+  if (!state.settings.bannerTitle) state.settings.bannerTitle = BANNER_TITLE;
+}
+function saveAll(){
+  storeSet("idp_users", state.users); storeSet("idp_session", state.session);
+  storeSet("idp_favorites", state.favorites); storeSet("idp_inquiries", state.inquiries);
+  storeSet("idp_works", state.works); storeSet("idp_views", state.views);
+  storeSet("idp_cases", state.cases); storeSet("idp_goods", state.goods);
+  storeSet("idp_settings", state.settings);
+}
+function currentUser(){ if (!state.session) return null; return state.users.find(function(u){ return u.account === state.session.account; }) || null; }
+function isAdmin(){ var u = currentUser(); return !!(u && u.role === "admin"); }
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function $(id){ return document.getElementById(id); }
+function setErr(id, msg){ var el = $(id); if (el) el.textContent = msg || ""; }
+function toast(msg){ var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove("show"); }, 2000); }
+
+/* ================= 校验 ================= */
+function validAccount(v){ return /^1\d{10}$/.test(v) || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+function validPw(v){ return v.length >= 8 && v.length <= 20 && /[A-Za-z]/.test(v) && /\d/.test(v); }
+function validLink(v){ return /^https?:\/\/.+/.test(v); }
+/* 图片压缩：长边 ≤1600px、JPEG 0.82、单张 ≤300KB（质量自动下调兜底） */
+function compressImage(file, cb){
+  var reader = new FileReader();
+  reader.onload = function(){
+    var img = new Image();
+    img.onload = function(){
+      var scale = Math.min(1, 1600 / Math.max(img.width, img.height));
+      var w = Math.max(1, Math.round(img.width * scale)), h = Math.max(1, Math.round(img.height * scale));
+      var cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+      cv.getContext("2d").drawImage(img, 0, 0, w, h);
+      var q = 0.82, out = cv.toDataURL("image/jpeg", q);
+      while (out.length > 300 * 1024 * 1.37 && q > 0.4){ q -= 0.1; out = cv.toDataURL("image/jpeg", q); }
+      cb(out);
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ================= 登录 / 注册 ================= */
+var authMode = "login";
+function openAuth(mode){
+  authMode = mode || "login"; switchAuthTab(authMode);
+  $("authModal").classList.add("open"); document.body.style.overflow = "hidden";
+  setTimeout(function(){ var f = authMode === "login" ? $("loginAccount") : $("regNick"); if (f) f.focus(); }, 50);
+}
+function closeAuth(){ $("authModal").classList.remove("open"); document.body.style.overflow = ""; }
+function switchAuthTab(mode){
+  authMode = mode;
+  $("tabLogin").classList.toggle("on", mode === "login");
+  $("tabRegister").classList.toggle("on", mode === "register");
+  $("loginForm").style.display = mode === "login" ? "" : "none";
+  $("registerForm").style.display = mode === "register" ? "" : "none";
+  $("authTitle").textContent = mode === "login" ? "登录" : "注册";
+}
+function doLogin(ev){
+  if (ev) ev.preventDefault();
+  var acc = $("loginAccount").value.trim(), pw = $("loginPw").value;
+  var ok = true;
+  /* 管理员账号为预置账号，格式不符手机号/邮箱也允许登录；注册仍要求手机号或邮箱 */
+  if (!acc){ setErr("e-loginAccount","账号必填"); ok = false; } else if (acc !== ADMIN.account && !validAccount(acc)){ setErr("e-loginAccount","请输入 11 位手机号或有效邮箱"); ok = false; } else setErr("e-loginAccount","");
+  if (!pw){ setErr("e-loginPw","密码必填"); ok = false; } else setErr("e-loginPw","");
+  if (!ok) return;
+  var user = state.users.find(function(u){ return u.account === acc; });
+  if (user && user.lockUntil && Date.now() < user.lockUntil){
+    var sec = Math.ceil((user.lockUntil - Date.now())/1000);
+    setErr("e-loginPw","账号已锁定，请 " + sec + " 秒后再试"); return;
+  }
+  var btn = $("loginBtn"); btn.disabled = true; btn.textContent = "处理中…";
+  setTimeout(function(){
+    btn.disabled = false; btn.textContent = "登录";
+    if (!user || user.password !== hashPw(pw)){
+      if (user){ user.failCount = (user.failCount||0) + 1;
+        if (user.failCount >= 5){ user.lockUntil = Date.now() + 60000; user.failCount = 0; saveAll(); setErr("e-loginPw","连续失败 5 次，账号已锁定 60 秒"); return; }
+        saveAll();
+      }
+      setErr("e-loginPw","账号或密码不正确"); return;
+    }
+    user.failCount = 0; user.lockUntil = 0;
+    state.session = { account:user.account, nickname:user.nickname, role:user.role, loginAt: nowStr() };
+    saveAll(); closeAuth(); renderAccount(); renderStats(); toast("登录成功");
+  }, 800);
+}
+function doRegister(ev){
+  if (ev) ev.preventDefault();
+  var nick = $("regNick").value.trim(), acc = $("regAccount").value.trim(), pw = $("regPw").value, pw2 = $("regPw2").value;
+  var ok = true;
+  if (nick.length < 2 || nick.length > 12){ setErr("e-regNick","昵称 2–12 字"); ok = false; } else setErr("e-regNick","");
+  if (!acc){ setErr("e-regAccount","账号必填"); ok = false; } else if (!validAccount(acc)){ setErr("e-regAccount","请输入 11 位手机号或有效邮箱"); ok = false; } else setErr("e-regAccount","");
+  if (!validPw(pw)){ setErr("e-regPw","密码 8–20 位，且同时包含字母与数字"); ok = false; } else setErr("e-regPw","");
+  if (pw2 !== pw){ setErr("e-regPw2","两次密码不一致"); ok = false; } else setErr("e-regPw2","");
+  if (!$("agreeTerms").checked){ setErr("e-agreeTerms","请先阅读并同意条款"); ok = false; } else setErr("e-agreeTerms","");
+  if (!ok) return;
+  if (state.users.some(function(u){ return u.account === acc; })){ setErr("e-regAccount","该账号已注册，请直接登录"); return; }
+  var btn = $("regBtn"); btn.disabled = true; btn.textContent = "处理中…";
+  setTimeout(function(){
+    btn.disabled = false; btn.textContent = "创建账号";
+    var user = { id: uid("u"), account: acc, nickname: nick, password: hashPw(pw), role:"member", bio:"", phone: (/^1\d{10}$/.test(acc)?acc:""), city:"", avatar:"", createdAt: nowStr(), failCount:0, lockUntil:0 };
+    state.users.push(user);
+    state.session = { account:user.account, nickname:user.nickname, role:user.role, loginAt: nowStr() };
+    saveAll(); closeAuth(); renderAccount(); toast("注册成功，已自动登录");
+  }, 800);
+}
+function logout(){
+  state.session = null; saveAll(); renderAccount(); routeTo("home"); toast("已退出登录");
+}
+
+/* ================= 渲染：导航账号区 ================= */
+function renderAccount(){
+  var area = $("acctArea");
+  var u = currentUser();
+  if (!u){
+    area.innerHTML = '<button class="acct-btn" id="navLoginBtn">登录 / 注册</button>';
+    $("navLoginBtn").addEventListener("click", function(){ openAuth("login"); });
+    return;
+  }
+  var av = u.avatar ? '<img src="'+u.avatar+'" alt="头像">' : esc(u.nickname.slice(0,1));
+  area.innerHTML = '<button class="avatar" id="acctAvatar" aria-label="账号菜单">'+av+'</button><span class="acct-name">'+esc(u.nickname)+'</span>'
+    + '<div class="dropdown" id="acctDrop">'
+    + '<a href="#/account" data-go="account">个人中心</a>'
+    + '<a href="#/account" data-go="fav">我的收藏</a>'
+    + (u.role === "admin" ? '<a href="#/account" data-go="admin">作品管理</a>' : '')
+    + '<button id="dropLogout">退出登录</button></div>';
+  $("acctAvatar").addEventListener("click", function(e){ e.stopPropagation(); $("acctDrop").classList.toggle("open"); });
+  document.querySelectorAll("#acctDrop [data-go]").forEach(function(a){
+    a.addEventListener("click", function(){
+      var g = a.getAttribute("data-go");
+      state.acctTab = g === "admin" ? "admin" : "fav";
+      $("acctDrop").classList.remove("open"); renderAccountView();
+    });
+  });
+  $("dropLogout").addEventListener("click", logout);
+  document.addEventListener("click", function(e){ var d = $("acctDrop"); if (d && !d.contains(e.target) && e.target.id !== "acctAvatar") d.classList.remove("open"); });
+}
+function renderBanner(){
+  var el = $("bannerTitle");
+  if (el) el.textContent = (state.settings && state.settings.bannerTitle) || BANNER_TITLE;
+}
+function renderStats(){
+  renderBanner();
+  var pub = publishedWorks();
+  $("statWorks").textContent = pub.length;
+  var total = 34588;
+  pub.forEach(function(w){ total += (state.views[w.id] || 0); });
+  $("statViews").textContent = total;
+}
+
+/* ================= 渲染：作品列表（搜索 + 筛选 + 分页，每页 16 个） ================= */
+var FILTERS = ["全部","住宅","别墅","商业","办公"];
+function publishedWorks(){ return state.works.filter(function(w){ return w.status === "published"; }).sort(function(a,b){ return (a.order||0)-(b.order||0); }); }
+function filteredWorks(){
+  var list = publishedWorks();
+  if (state.filter !== "全部") list = list.filter(function(w){ return w.type === state.filter; });
+  var q = state.query.trim();
+  if (q) list = list.filter(function(w){ return (w.name + w.style + w.city + w.type).indexOf(q) >= 0; });
+  return list;
+}
+/* ================= 效果图三稿链接（一稿 / 二稿 / 三稿） ================= */
+var PLAN_LABELS = ["一稿","二稿","三稿"];
+function workPlans(w){
+  if (w.plans && w.plans.length) return w.plans;
+  if (w.link) return [{label:"一稿",url:w.link},{label:"二稿",url:""},{label:"三稿",url:""}];
+  return PLAN_LABELS.map(function(l){ return {label:l,url:""}; });
+}
+/* 只渲染有链接的稿；三稿都空时显示“暂无效果图”。链接用 .work-link 样式，卡片上已有的 stopPropagation 会阻止点穿到详情弹窗 */
+function plansHtml(w){
+  var ps = workPlans(w).filter(function(p){ return p.url; });
+  if (!ps.length) return '<span class="no-plans">暂无效果图</span>';
+  return ps.map(function(p){ return '<a class="work-link" href="'+esc(p.url)+'" target="_blank" rel="noopener">'+esc(p.label)+' →</a>'; }).join("");
+}
+function renderWorks(){
+  var f = $("filters");
+  f.innerHTML = FILTERS.map(function(t){ return '<button role="tab" class="'+(state.filter===t?"on":"")+'" data-f="'+t+'">'+t+'</button>'; }).join("");
+  f.querySelectorAll("button").forEach(function(b){ b.addEventListener("click", function(){
+    state.filter = b.getAttribute("data-f"); state.page = 1;
+    var g = $("worksGrid"); g.style.opacity = 0;
+    setTimeout(function(){ renderWorks(); g.style.opacity = 1; }, 200);
+  }); });
+  var list = filteredWorks();
+  var totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  if (state.page > totalPages) state.page = totalPages;
+  var pageList = list.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
+  var g = $("worksGrid");
+  if (!list.length){ g.innerHTML = '<div class="empty" style="grid-column:1/-1">没有找到相关作品，换个关键词试试。</div>'; }
+  else {
+    g.innerHTML = pageList.map(function(w){
+      var fav = isFav(w.id);
+      var views = state.views[w.id] || 0;
+      return '<article class="work-card" data-id="'+w.id+'" tabindex="0">'
+        + '<div class="work-cover"><img src="'+esc(w.cover)+'" alt="'+esc(w.name)+'" loading="lazy"><span class="work-views">浏览 ' + views + '</span><span class="cover-name">'+esc(w.name)+'</span>'
+        + '<button class="fav-btn'+(fav?" on":"")+'" data-fav="'+w.id+'" aria-label="收藏"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.7-9C.7 8.9 2.6 5.5 6 5.5c2 0 3.6 1.1 4.5 2.7.4.7 1.5.7 1.9 0C13.3 6.6 14.9 5.5 16.9 5.5c3.4 0 5.3 3.4 3.7 6.5-2.2 4.4-9.6 9-9.6 9z" transform="scale(0.92) translate(1,1)"/></svg></button></div>'
+        + '<div class="work-body"><h3>'+esc(w.name)+'</h3>'
+        + '<p class="work-tags">'+esc(w.area)+'㎡ · '+esc(w.style)+' · '+esc(w.city)+' · '+esc(w.year)+'年</p>'
+        + '<p class="work-views-line">浏览 ' + views + '</p>'
+        + '<div class="work-links">'+plansHtml(w)+'</div>'
+        + (w.panoUrl ? '<a class="pano-link" href="'+esc(w.panoUrl)+'" target="_blank" rel="noopener">进入360°全景 →</a>' : '')
+        + '</div></article>';
+    }).join("");
+  }
+  g.querySelectorAll(".work-card").forEach(function(card){
+    card.addEventListener("click", function(){ openDetail(card.getAttribute("data-id")); });
+    card.addEventListener("keydown", function(e){ if (e.key === "Enter") openDetail(card.getAttribute("data-id")); });
+  });
+  g.querySelectorAll("[data-fav]").forEach(function(b){
+    b.addEventListener("click", function(e){ e.stopPropagation(); toggleFav(b.getAttribute("data-fav")); });
+  });
+  g.querySelectorAll(".work-link,.pano-link").forEach(function(a){ a.addEventListener("click", function(e){ e.stopPropagation(); }); });
+  /* 分页：首页 / 页码 / 上一页 / 下一页 / 尾页 */
+  var p = $("pager");
+  var btns = '<button data-pg="first"'+(state.page===1?" disabled":"")+'>首页</button>'
+    + '<button data-pg="prev"'+(state.page===1?" disabled":"")+'>上一页</button>';
+  for (var i = 1; i <= totalPages; i++) btns += '<button data-pg="'+i+'" class="'+(i===state.page?"on":"")+'">'+i+'</button>';
+  btns += '<button data-pg="next"'+(state.page===totalPages?" disabled":"")+'>下一页</button>'
+    + '<button data-pg="last"'+(state.page===totalPages?" disabled":"")+'>尾页</button>'
+    + '<span class="count">共 ' + list.length + ' 个作品 · 第 ' + state.page + ' / ' + totalPages + ' 页</span>';
+  p.innerHTML = btns;
+  p.querySelectorAll("[data-pg]").forEach(function(b){ b.addEventListener("click", function(){
+    var v = b.getAttribute("data-pg");
+    if (v === "first") state.page = 1;
+    else if (v === "prev") state.page = Math.max(1, state.page - 1);
+    else if (v === "next") state.page = Math.min(totalPages, state.page + 1);
+    else if (v === "last") state.page = totalPages;
+    else state.page = parseInt(v, 10);
+    renderWorks(); window.scrollTo({ top: $("works").offsetTop - 80, behavior: "smooth" });
+  }); });
+  renderStats();
+}
+function doSearch(){
+  state.query = $("searchInput").value.trim(); state.page = 1; renderWorks();
+}
+function isFav(id){ var u = currentUser(); if (!u) return false; return (state.favorites[u.account] || []).indexOf(id) >= 0; }
+function toggleFav(id){
+  var u = currentUser();
+  if (!u){ openAuth("login"); toast("登录后可收藏作品"); return; }
+  var list = state.favorites[u.account] || [];
+  var i = list.indexOf(id);
+  if (i >= 0){ list.splice(i,1); toast("已取消收藏"); } else { list.push(id); toast("已收藏"); }
+  state.favorites[u.account] = list; saveAll(); renderWorks(); renderAccountView();
+}
+
+/* ================= 渲染：作品案例 / 商品图集 ================= */
+function renderCases(){
+  var el = $("casesBody");
+  if (!state.cases.length){ el.innerHTML = '<div class="empty">暂无案例</div>'; return; }
+  el.innerHTML = '<div class="case-list">' + state.cases.map(function(c){
+    return '<div class="case-card"><img src="'+esc(c.cover||IMAGES.gallery)+'" alt="'+esc(c.name)+'"><div><h3>'+esc(c.name)+'</h3><p>'+esc(c.desc||"")+'</p>'
+      + (c.link ? '<a class="work-link" href="'+esc(c.link)+'" target="_blank" rel="noopener">查看案例 →</a>' : '') + '</div></div>';
+  }).join("") + '</div>';
+}
+function renderGoods(){
+  var el = $("goodsBody");
+  if (!state.goods.length){ el.innerHTML = '<div class="empty">暂无商品</div>'; return; }
+  el.innerHTML = '<div class="works-grid">' + state.goods.map(function(c){
+    return '<div class="work-card" style="cursor:default"><div class="work-cover"><img src="'+esc(c.cover||IMAGES.gallery)+'" alt="'+esc(c.name)+'" loading="lazy"></div>'
+      + '<div class="work-body"><h3>'+esc(c.name)+'</h3><p class="work-tags">'+esc(c.desc||"")+'</p>'
+      + (c.link ? '<a class="work-link" href="'+esc(c.link)+'" target="_blank" rel="noopener">查看商品 →</a>' : '') + '</div></div>';
+  }).join("") + '</div>';
+}
+
+/* ================= 渲染：作品详情 + 图集 ================= */
+function openDetail(id){
+  state.detailId = id;
+  var w = state.works.find(function(x){ return x.id === id; }); if (!w) return;
+  state.views[id] = (state.views[id] || 0) + 1; saveAll();
+  var pub = publishedWorks(); var idx = pub.findIndex(function(x){ return x.id === id; });
+  var prev = pub[(idx - 1 + pub.length) % pub.length], next = pub[(idx + 1) % pub.length];
+  $("detailBody").innerHTML =
+    '<p class="sec-kicker">WORKS · '+esc(w.type)+'</p><h2>'+esc(w.name)+'</h2>'
+    + '<p class="detail-meta">'+esc(w.area)+'㎡ · '+esc(w.style)+' · '+esc(w.city)+' · '+esc(w.year)+'年完工 · 浏览 ' + (state.views[id] || 0) + '</p>'
+    + '<div class="spec"><div>面积</div><div>'+esc(w.area)+'㎡</div><div>户型</div><div>'+esc(w.spec.户型)+'</div>'
+    + '<div>主材</div><div>'+esc(w.spec.主材)+'</div><div>色彩方案</div><div>'+esc(w.spec.色彩)+'</div>'
+    + '<div>设计周期</div><div>'+esc(w.spec.周期)+'</div></div>'
+    + '<p class="detail-desc">'+esc(w.desc)+'</p>'
+    + '<div class="gallery">' + (w.gallery||[]).map(function(src, i){ return '<img src="'+esc(src)+'" alt="效果图 '+(i+1)+'" data-gi="'+i+'" loading="lazy">'; }).join("") + '</div>'
+    + '<div class="detail-nav">'
+    + (prev ? '<button class="btn" id="dPrev">← 上一个 · '+esc(prev.name)+'</button>' : '<span></span>')
+    + (next ? '<button class="btn" id="dNext">下一个 · '+esc(next.name)+' →</button>' : '') + '</div>'
+    + '<div style="margin-top:28px"><span class="sec-sub" style="display:block;margin-bottom:4px">效果图方案</span><div class="work-links">'+plansHtml(w)+'</div>'
+    + '<p style="margin-top:16px">'
+    + (w.panoUrl ? '<a class="pano-link" style="margin-left:0" href="'+esc(w.panoUrl)+'" target="_blank" rel="noopener">进入360°全景 →</a>' : '<span class="sec-sub">暂无全景链接</span>')
+    + '</p></div>';
+  $("detailModal").classList.add("open"); document.body.style.overflow = "hidden";
+  $("detailBody").querySelectorAll(".gallery img").forEach(function(img){
+    img.addEventListener("click", function(){ openLightbox(w.gallery, parseInt(img.getAttribute("data-gi"), 10)); });
+  });
+  var p = $("dPrev"); if (p) p.addEventListener("click", function(){ openDetail(prev.id); });
+  var n = $("dNext"); if (n) n.addEventListener("click", function(){ openDetail(next.id); });
+  renderWorks();
+}
+function closeDetail(){ $("detailModal").classList.remove("open"); document.body.style.overflow = ""; state.detailId = null; }
+function openLightbox(list, i){ state.lbList = list; state.lbIndex = i; $("lbImg").src = list[i]; $("lightbox").classList.add("open"); }
+function closeLightbox(){ $("lightbox").classList.remove("open"); }
+function lbStep(d){ if (!state.lbList.length) return; state.lbIndex = (state.lbIndex + d + state.lbList.length) % state.lbList.length; $("lbImg").src = state.lbList[state.lbIndex]; }
+
+/* ================= 渲染：个人中心 ================= */
+function renderAccountView(){
+  var body = $("accountBody"); var u = currentUser();
+  if (!u){ body.innerHTML = '<div class="empty">请先登录查看个人中心。<br><br><button class="btn btn-brass" id="acctLoginBtn">登录 / 注册</button></div>';
+    $("acctLoginBtn").addEventListener("click", function(){ openAuth("login"); }); return; }
+  var tabs = [["fav","我的收藏"],["inq","我的咨询"],["safe","账号安全"]];
+  if (u.role === "admin") tabs.push(["admin","作品管理"]);
+  var av = u.avatar ? '<img src="'+u.avatar+'" alt="头像">' : esc(u.nickname.slice(0,1));
+  var html = '<div class="profile-card">'
+    + '<div class="avatar" id="avatarPick" title="点击更换头像">'+av+'</div>'
+    + '<div style="flex:1;min-width:200px"><h2 style="font-size:26px">'+esc(u.nickname)+' <span class="role'+(u.role==="admin"?" admin":"")+'">'+(u.role==="admin"?"设计师":"访客")+'</span></h2>'
+    + '<p class="sec-sub" style="margin-top:8px">'+esc(u.account)+' · 注册于 '+esc(u.createdAt)+'</p>'
+    + '<p class="sec-sub">'+esc(u.bio || "这个人很安静，还没有写简介。")+'</p></div></div>'
+    + '<div class="acct-tabs">' + tabs.map(function(t){ return '<button class="'+(state.acctTab===t[0]?"on":"")+'" data-tab="'+t[0]+'">'+t[1]+'</button>'; }).join("") + '</div>'
+    + '<div id="acctTabBody"></div>';
+  body.innerHTML = html;
+  $("avatarPick").addEventListener("click", function(){ $("avatarInput").click(); });
+  body.querySelectorAll("[data-tab]").forEach(function(b){ b.addEventListener("click", function(){ state.acctTab = b.getAttribute("data-tab"); renderAccountView(); }); });
+  renderAcctTab();
+}
+function renderAcctTab(){
+  var el = $("acctTabBody"); if (!el) return; var u = currentUser(); if (!u) return;
+  if (state.acctTab === "fav") return renderFavTab(el, u);
+  if (state.acctTab === "inq") return renderInqTab(el, u);
+  if (state.acctTab === "safe") return renderSafeTab(el, u);
+  if (state.acctTab === "admin") return renderAdmin(el);
+  renderFavTab(el, u);
+}
+function renderFavTab(el, u){
+  var ids = state.favorites[u.account] || [];
+  var list = state.works.filter(function(w){ return ids.indexOf(w.id) >= 0; });
+  var html = '<div class="form-grid" style="margin-bottom:28px"><div><label for="pfNick">昵称</label><input id="pfNick" value="'+esc(u.nickname)+'" maxlength="12"></div>'
+    + '<div><label for="pfCity">常驻城市</label><input id="pfCity" value="'+esc(u.city||"")+'"></div>'
+    + '<div><label for="pfPhone">手机号</label><input id="pfPhone" value="'+esc(u.phone||"")+'"></div>'
+    + '<div><label for="pfEmail">邮箱</label><input id="pfEmail" value="'+esc(u.account.indexOf("@")>=0?u.account:"")+'"></div>'
+    + '<div class="full"><label for="pfBio">个人简介（≤80 字）</label><textarea id="pfBio" maxlength="80">'+esc(u.bio||"")+'</textarea></div></div>'
+    + '<button class="btn btn-brass" id="saveProfileBtn">保存资料</button><span class="err" id="e-pfNick"></span>'
+    + '<h3 style="margin:40px 0 20px;font-size:24px">我的收藏</h3>';
+  if (!list.length){ html += '<div class="empty">还没有收藏作品，<a href="#/home">去作品区逛逛 →</a></div>'; }
+  else { html += '<div class="mini-grid">' + list.map(function(w){ return '<div class="mini-card"><img src="'+esc(w.cover)+'" alt="'+esc(w.name)+'"><div class="b"><h4>'+esc(w.name)+'</h4><p>'+esc(w.area)+'㎡ · '+esc(w.style)+' · '+esc(w.city)+' · '+esc(w.year)+'年</p><button class="btn btn-sm" data-unfav="'+w.id+'">取消收藏</button></div></div>'; }).join("") + '</div>'; }
+  el.innerHTML = html;
+  $("saveProfileBtn").addEventListener("click", function(){
+    var nick = $("pfNick").value.trim();
+    if (nick.length < 2 || nick.length > 12){ setErr("e-pfNick","昵称 2–12 字"); return; }
+    setErr("e-pfNick","");
+    u.nickname = nick; u.city = $("pfCity").value.trim(); u.phone = $("pfPhone").value.trim();
+    var em = $("pfEmail").value.trim(); if (em && validAccount(em)) u.account = em;
+    u.bio = $("pfBio").value.trim().slice(0,80);
+    if (state.session) state.session.nickname = nick;
+    saveAll(); renderAccount(); renderAccountView(); toast("已保存");
+  });
+  el.querySelectorAll("[data-unfav]").forEach(function(b){ b.addEventListener("click", function(){ toggleFav(b.getAttribute("data-unfav")); }); });
+}
+function renderInqTab(el, u){
+  var list = state.inquiries.filter(function(x){ return x.account === u.account; }).slice().reverse();
+  if (!list.length){ el.innerHTML = '<div class="empty">还没有提交过咨询，有项目想聊可以去个人资料页留言。</div>'; return; }
+  el.innerHTML = list.map(function(x){
+    return '<div class="inq"><span class="st'+(x.status==="已回复"?" done":"")+'">'+esc(x.status)+'</span><time>'+esc(x.createdAt)+'</time><p style="margin-top:8px">'+esc(x.content)+'</p></div>';
+  }).join("");
+}
+function renderSafeTab(el, u){
+  el.innerHTML = '<div class="form-grid"><div><label for="pwOld">原密码</label><input id="pwOld" type="password"><span class="err" id="e-pwOld"></span></div>'
+    + '<div><label for="pwNew">新密码（8–20 位，含字母与数字）</label><input id="pwNew" type="password"><span class="err" id="e-pwNew"></span></div>'
+    + '<div><label for="pwNew2">确认新密码</label><input id="pwNew2" type="password"><span class="err" id="e-pwNew2"></span></div></div>'
+    + '<div style="margin-top:20px"><button class="btn btn-brass" id="changePwBtn">修改密码</button></div>'
+    + '<hr class="hr" style="margin:40px 0"><h3 style="font-size:22px;margin-bottom:12px">注销账号</h3>'
+    + '<p class="sec-sub">注销后将删除你的账号、收藏与咨询记录，且不可恢复。</p>'
+    + '<div style="margin-top:16px"><button class="btn" id="deleteAcctBtn">注销账号</button></div>';
+  $("changePwBtn").addEventListener("click", function(){
+    var old = $("pwOld").value, nw = $("pwNew").value, nw2 = $("pwNew2").value; var ok = true;
+    if (hashPw(old) !== u.password){ setErr("e-pwOld","原密码不正确"); ok = false; } else setErr("e-pwOld","");
+    if (!validPw(nw)){ setErr("e-pwNew","密码 8–20 位，且同时包含字母与数字"); ok = false; } else setErr("e-pwNew","");
+    if (nw2 !== nw){ setErr("e-pwNew2","两次密码不一致"); ok = false; } else setErr("e-pwNew2","");
+    if (!ok) return;
+    u.password = hashPw(nw); saveAll(); toast("密码已修改");
+    $("pwOld").value = ""; $("pwNew").value = ""; $("pwNew2").value = "";
+  });
+  $("deleteAcctBtn").addEventListener("click", function(){
+    showConfirm("注销账号", "注销后将删除你的账号、收藏与咨询记录，且不可恢复。请输入你的昵称以确认。", true, u.nickname, function(){
+      state.users = state.users.filter(function(x){ return x.account !== u.account; });
+      delete state.favorites[u.account];
+      state.inquiries = state.inquiries.filter(function(x){ return x.account !== u.account; });
+      state.session = null; saveAll(); renderAccount(); routeTo("home"); toast("账号已注销");
+    });
+  });
+}
+
+/* ================= 渲染：作品管理（admin，含案例与商品管理） ================= */
+function renderAdmin(el){
+  var list = state.works.slice().sort(function(a,b){ return (a.order||0)-(b.order||0); });
+  var html = '<div style="background:var(--bg2);border:1px solid var(--line);padding:24px;margin-bottom:28px"><h3 style="font-size:20px;font-family:var(--serif);font-weight:400">网站横幅设置</h3>'
+    + '<p class="sec-sub">这里改的是网站开头的大字（现在是“' + esc((state.settings && state.settings.bannerTitle) || BANNER_TITLE) + '”），保存后首页横幅立刻换成新文字，刷新后也保留。</p>'
+    + '<div class="form-grid"><div class="full"><label>横幅大字</label><input id="bannerTitleInput" value="' + esc((state.settings && state.settings.bannerTitle) || BANNER_TITLE) + '" placeholder="例如：3D渲染作品" maxlength="30"></div></div>'
+    + '<div style="display:flex;gap:12px;margin-top:16px"><button class="btn btn-brass btn-sm" id="saveBannerBtn">保存横幅文字</button><button class="btn btn-sm" id="resetBannerBtn">恢复默认</button></div></div>'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px"><h3 style="font-size:24px">作品管理</h3><button class="btn btn-brass btn-sm" id="addWorkBtn">+ 新增作品</button></div>'
+    + '<div id="workFormWrap"></div>'
+    + '<div class="admin-row head"><span>封面</span><span>名称</span><span class="hide-t">类型</span><span class="hide-t">面积</span><span class="hide-m">城市</span><span class="hide-m">年份</span><span>状态</span><span>操作</span></div>';
+  if (!list.length) html += '<div class="empty">暂无作品，点击右上角新增。</div>';
+  html += list.map(function(w){
+    return '<div class="admin-row"><img src="'+esc(w.cover)+'" alt=""><span>'+esc(w.name)+(w.panoUrl ? ' <span style="color:var(--brass);font-size:12px">全景</span>' : '')+'</span>'
+      + '<span class="hide-t">'+esc(w.type)+'</span><span class="hide-t">'+esc(w.area)+'㎡</span>'
+      + '<span class="hide-m">'+esc(w.city)+'</span><span class="hide-m">'+esc(w.year)+'</span>'
+      + '<span class="status-pill '+(w.status==="published"?"pub":"draft")+'">'+(w.status==="published"?"已发布":"草稿")+'</span>'
+      + '<span class="acts"><button data-edit="'+w.id+'">编辑</button>'
+      + '<button data-pub="'+w.id+'">'+(w.status==="published"?"下架":"上架")+'</button>'
+      + '<button data-up="'+w.id+'">上移</button><button data-down="'+w.id+'">下移</button>'
+      + '<button data-del="'+w.id+'">删除</button></span></div>';
+  }).join("");
+  html += '<div class="sub-admin" style="margin-top:40px"><h3>作品案例管理</h3><p class="sec-sub">案例会显示在「作品案例」栏目，初始为空，显示“暂无案例”。</p>'
+    + '<div id="caseList" style="margin-top:16px">' + (state.cases.length ? state.cases.map(function(c){ return '<p style="padding:8px 0;border-bottom:1px solid var(--line)">'+esc(c.name)+' <button class="linklike" data-delcase="'+c.id+'">删除</button></p>'; }).join("") : '<p class="sec-sub">暂无案例</p>') + '</div>'
+    + '<div class="form-grid"><div><label>案例名称</label><input id="caseName"></div><div><label>案例链接（可选）</label><input id="caseLink" placeholder="https://…"></div>'
+    + '<div class="full"><label>案例简介</label><textarea id="caseDesc"></textarea></div></div>'
+    + '<div style="margin-top:16px"><button class="btn btn-sm" id="addCaseBtn">+ 新增案例</button></div></div>';
+  html += '<div class="sub-admin"><h3>商品图集管理</h3><p class="sec-sub">商品会显示在「商品图集」栏目，初始为空，显示“暂无商品”。</p>'
+    + '<div id="goodsList" style="margin-top:16px">' + (state.goods.length ? state.goods.map(function(c){ return '<p style="padding:8px 0;border-bottom:1px solid var(--line)">'+esc(c.name)+' <button class="linklike" data-delgoods="'+c.id+'">删除</button></p>'; }).join("") : '<p class="sec-sub">暂无商品</p>') + '</div>'
+    + '<div class="form-grid"><div><label>商品名称</label><input id="goodsName"></div><div><label>商品链接（可选）</label><input id="goodsLink" placeholder="https://…"></div>'
+    + '<div class="full"><label>商品简介</label><textarea id="goodsDesc"></textarea></div></div>'
+    + '<div style="margin-top:16px"><button class="btn btn-sm" id="addGoodsBtn">+ 新增商品</button></div></div>';
+  el.innerHTML = html;
+  $("addWorkBtn").addEventListener("click", function(){ state.editWorkId = null; state.wfCoverData = ""; state.wfGalleryData = []; renderWorkForm(); });
+  $("saveBannerBtn").addEventListener("click", function(){
+    var t = $("bannerTitleInput").value.trim();
+    if (!t){ toast("横幅大字不能为空"); return; }
+    state.settings.bannerTitle = t; saveAll(); renderBanner(); renderAdmin(el); toast("横幅文字已保存，首页已同步更新");
+  });
+  $("resetBannerBtn").addEventListener("click", function(){
+    state.settings.bannerTitle = BANNER_TITLE; saveAll(); renderBanner(); renderAdmin(el); toast("已恢复默认横幅文字");
+  });
+  el.querySelectorAll("[data-edit]").forEach(function(b){ b.addEventListener("click", function(){ state.editWorkId = b.getAttribute("data-edit"); state.wfCoverData = ""; state.wfGalleryData = []; renderWorkForm(); }); });
+  el.querySelectorAll("[data-pub]").forEach(function(b){ b.addEventListener("click", function(){
+    var w = state.works.find(function(x){ return x.id === b.getAttribute("data-pub"); });
+    w.status = w.status === "published" ? "draft" : "published"; saveAll(); renderWorks(); renderAdmin(el); toast(w.status === "published" ? "已上架" : "已下架");
+  }); });
+  el.querySelectorAll("[data-up]").forEach(function(b){ b.addEventListener("click", function(){ moveWork(b.getAttribute("data-up"), -1); renderAdmin(el); }); });
+  el.querySelectorAll("[data-down]").forEach(function(b){ b.addEventListener("click", function(){ moveWork(b.getAttribute("data-down"), 1); renderAdmin(el); }); });
+  el.querySelectorAll("[data-del]").forEach(function(b){ b.addEventListener("click", function(){
+    var w = state.works.find(function(x){ return x.id === b.getAttribute("data-del"); });
+    showConfirm("删除作品", "删除后不可恢复，确认删除「"+w.name+"」？", false, "", function(){
+      state.works = state.works.filter(function(x){ return x.id !== w.id; });
+      state.works.forEach(function(x, i){ x.order = i + 1; });
+      saveAll(); renderWorks(); renderCases(); renderGoods(); renderAdmin(el); toast("已删除");
+    });
+  }); });
+  el.querySelectorAll("[data-delcase]").forEach(function(b){ b.addEventListener("click", function(){ state.cases = state.cases.filter(function(x){ return x.id !== b.getAttribute("data-delcase"); }); saveAll(); renderCases(); renderAdmin(el); toast("已删除案例"); }); });
+  el.querySelectorAll("[data-delgoods]").forEach(function(b){ b.addEventListener("click", function(){ state.goods = state.goods.filter(function(x){ return x.id !== b.getAttribute("data-delgoods"); }); saveAll(); renderGoods(); renderAdmin(el); toast("已删除商品"); }); });
+  $("addCaseBtn").addEventListener("click", function(){
+    var name = $("caseName").value.trim(), link = $("caseLink").value.trim();
+    if (!name){ toast("案例名称必填"); return; }
+    if (link && !validLink(link)){ toast("请输入有效链接"); return; }
+    state.cases.push({ id: uid("c"), name: name, desc: $("caseDesc").value.trim(), link: link, cover: IMAGES.gallery });
+    saveAll(); renderCases(); renderAdmin(el); toast("已新增案例");
+  });
+  $("addGoodsBtn").addEventListener("click", function(){
+    var name = $("goodsName").value.trim(), link = $("goodsLink").value.trim();
+    if (!name){ toast("商品名称必填"); return; }
+    if (link && !validLink(link)){ toast("请输入有效链接"); return; }
+    state.goods.push({ id: uid("g"), name: name, desc: $("goodsDesc").value.trim(), link: link, cover: IMAGES.gallery });
+    saveAll(); renderGoods(); renderAdmin(el); toast("已新增商品");
+  });
+}
+function moveWork(id, dir){
+  var list = state.works.slice().sort(function(a,b){ return (a.order||0)-(b.order||0); });
+  var i = list.findIndex(function(w){ return w.id === id; }); var j = i + dir;
+  if (i < 0 || j < 0 || j >= list.length) return;
+  var t = list[i].order; list[i].order = list[j].order; list[j].order = t;
+  state.works = list; saveAll(); renderWorks();
+}
+function renderWorkForm(){
+  var wrap = $("workFormWrap"); if (!wrap) return;
+  var w = state.editWorkId ? state.works.find(function(x){ return x.id === state.editWorkId; }) : null;
+  var g = function(v){ return v || ""; };
+  var planVals = w ? workPlans(w) : [{label:"一稿",url:""},{label:"二稿",url:""},{label:"三稿",url:""}];
+  var planVal = function(i){ return planVals[i] && planVals[i].url ? planVals[i].url : ""; };
+  wrap.innerHTML = '<div style="background:var(--bg2);border:1px solid var(--line);padding:24px;margin-bottom:28px">'
+    + '<h4 style="font-family:var(--serif);font-size:20px;font-weight:400">'+(w ? "编辑作品" : "新增作品")+'</h4>'
+    + '<div class="form-grid">'
+    + '<div><label>名称 *</label><input id="wfName" value="'+esc(g(w && w.name))+'"><span class="err" id="e-wfName"></span></div>'
+    + '<div><label>类型</label><select id="wfType">' + ["住宅","别墅","商业","办公"].map(function(t){ return '<option'+(w && w.type===t ? " selected" : "")+'>'+t+'</option>'; }).join("") + '</select></div>'
+    + '<div><label>面积（㎡）*</label><input id="wfArea" type="number" min="1" value="'+esc(g(w && w.area))+'"><span class="err" id="e-wfArea"></span></div>'
+    + '<div><label>风格</label><input id="wfStyle" value="'+esc(g(w && w.style))+'"></div>'
+    + '<div><label>城市</label><input id="wfCity" value="'+esc(g(w && w.city))+'"></div>'
+    + '<div><label>年份（四位数字）*</label><input id="wfYear" value="'+esc(g(w && w.year))+'"><span class="err" id="e-wfYear"></span></div>'
+    + '<div class="full"><label>封面图地址</label><input id="wfCover" value="'+esc(g(w && w.cover))+'"><span class="err" id="e-wfCover"></span>'
+    + '<div style="margin-top:10px"><button class="btn btn-sm" id="wfCoverUpload" type="button">上传封面图（jpg/png，自动压缩）</button> <span class="sec-sub" id="wfCoverNote"></span></div></div>'
+    + '<div class="full"><label>360° 全景链接（panoUrl，粘贴全景链接；留空则不显示全景按钮）</label><input id="wfPano" value="'+esc(g(w && w.panoUrl))+'" placeholder="https://…"><span class="err" id="e-wfPano"></span></div>'
+    + '<div class="full"><label>一稿链接（效果图一稿）</label><input id="wfPlan1" value="'+esc(planVal(0))+'" placeholder="https://…"><span class="err" id="e-wfPlan1"></span></div>'
+    + '<div class="full"><label>二稿链接（效果图二稿）</label><input id="wfPlan2" value="'+esc(planVal(1))+'" placeholder="https://…"><span class="err" id="e-wfPlan2"></span></div>'
+    + '<div class="full"><label>三稿链接（效果图三稿）</label><input id="wfPlan3" value="'+esc(planVal(2))+'" placeholder="https://…"><span class="err" id="e-wfPlan3"></span></div>'
+    + '<div class="full"><label>设计说明</label><textarea id="wfDesc">'+esc(g(w && w.desc))+'</textarea></div>'
+    + '<div class="full"><label>图集地址（每行一条，可增删）</label><textarea id="wfGallery">'+esc((w && w.gallery ? w.gallery : []).join("\n"))+'</textarea>'
+    + '<div style="margin-top:10px"><button class="btn btn-sm" id="wfGalleryUpload" type="button">上传图集图片（可多选）</button> <span class="sec-sub" id="wfGalleryNote"></span></div></div>'
+    + '</div><div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-brass" id="wfSave">保存作品</button><button class="btn" id="wfCancel">取消</button></div></div>';
+  $("wfCoverUpload").addEventListener("click", function(){ $("coverInput").click(); });
+  $("wfGalleryUpload").addEventListener("click", function(){ $("galleryInput").click(); });
+  $("wfCancel").addEventListener("click", function(){ renderAccountView(); });
+  $("wfSave").addEventListener("click", function(){
+    var name = $("wfName").value.trim(), area = parseFloat($("wfArea").value), year = $("wfYear").value.trim();
+    var cover = state.wfCoverData || $("wfCover").value.trim(), pano = $("wfPano").value.trim(); var ok = true;
+    var plan1 = $("wfPlan1").value.trim(), plan2 = $("wfPlan2").value.trim(), plan3 = $("wfPlan3").value.trim();
+    var plans = [{label:"一稿",url:plan1},{label:"二稿",url:plan2},{label:"三稿",url:plan3}];
+    var link = plan1; /* link 与一稿链接保持一致，向后兼容 */
+    if (!name){ setErr("e-wfName","名称必填"); ok = false; } else setErr("e-wfName","");
+    if (!(area > 0)){ setErr("e-wfArea","面积须为正数"); ok = false; } else setErr("e-wfArea","");
+    if (!/^\d{4}$/.test(year)){ setErr("e-wfYear","年份为四位数字"); ok = false; } else setErr("e-wfYear","");
+    if (cover && cover.indexOf("data:") !== 0 && !validLink(cover)){ setErr("e-wfCover","请输入有效链接"); ok = false; } else setErr("e-wfCover","");
+    if (pano && !validLink(pano)){ setErr("e-wfPano","请输入有效链接"); ok = false; } else setErr("e-wfPano","");
+    if (plan1 && !validLink(plan1)){ setErr("e-wfPlan1","请输入有效链接"); ok = false; } else setErr("e-wfPlan1","");
+    if (plan2 && !validLink(plan2)){ setErr("e-wfPlan2","请输入有效链接"); ok = false; } else setErr("e-wfPlan2","");
+    if (plan3 && !validLink(plan3)){ setErr("e-wfPlan3","请输入有效链接"); ok = false; } else setErr("e-wfPlan3","");
+    if (!ok) return;
+    var gallery = $("wfGallery").value.split("\n").map(function(s){ return s.trim(); }).filter(Boolean);
+    gallery = state.wfGalleryData.concat(gallery);
+    if (w){
+      Object.assign(w, { name:name, type:$("wfType").value, area:area, style:$("wfStyle").value.trim(), city:$("wfCity").value.trim(), year:parseInt(year,10), cover:cover || IMAGES.gallery, panoUrl:pano, plans:plans, link:link, desc:$("wfDesc").value.trim(), gallery: gallery.length ? gallery : [IMAGES.gallery] });
+    } else {
+      state.works.push({ id: uid("w"), name:name, type:$("wfType").value, area:area, style:$("wfStyle").value.trim(), city:$("wfCity").value.trim(), year:parseInt(year,10), cover:cover || IMAGES.gallery, panoUrl:pano, plans:plans, gallery: gallery.length ? gallery : [IMAGES.gallery], link:link, desc:$("wfDesc").value.trim(), spec:{户型:"—",主材:"—",色彩:"—",周期:"—"}, status:"published", order: state.works.length + 1 });
+    }
+    saveAll(); renderWorks(); renderAccountView(); toast("已保存，前台作品区已同步刷新");
+  });
+}
+
+/* ================= 二次确认 ================= */
+var confirmCb = null;
+function showConfirm(title, text, needNick, nick, cb){
+  $("confirmTitle").textContent = title; $("confirmText").textContent = text;
+  $("confirmInputWrap").style.display = needNick ? "" : "none";
+  $("confirmInput").value = ""; setErr("e-confirmInput","");
+  confirmCb = function(){
+    if (needNick && $("confirmInput").value.trim() !== nick){ setErr("e-confirmInput","请输入自己的昵称"); return; }
+    $("confirmModal").classList.remove("open"); document.body.style.overflow = "";
+    if (cb) cb();
+  };
+  $("confirmModal").classList.add("open"); document.body.style.overflow = "hidden";
+}
+
+/* ================= 路由 ================= */
+function routeTo(r){ location.hash = r === "account" ? "#/account" : "#/" + r; }
+function applyRoute(){
+  var h = location.hash || "#/home";
+  var map = { "#/home":"home", "#/cases":"cases", "#/goods":"goods", "#/profile":"profile", "#/account":"account" };
+  var r = map[h] || "home";
+  state.route = r;
+  ["home","cases","goods","profile","account"].forEach(function(k){
+    var el = $("view-" + k); if (el) el.classList.toggle("open", k === r);
+  });
+  document.querySelectorAll("[data-nav]").forEach(function(a){ a.classList.toggle("on", a.getAttribute("data-nav") === r); });
+  if (r === "cases") renderCases();
+  if (r === "goods") renderGoods();
+  if (r === "account") renderAccountView();
+  window.scrollTo(0, 0);
+}
+
+/* ================= 初始化 ================= */
+function init(){
+  seed(); loadState();
+  if (!storageOK) $("storeWarn").style.display = "block";
+  $("portraitImg").src = IMAGES.portrait;
+  $("qrBox").innerHTML = '<img src="'+IMAGES.qr+'" alt="微信二维码" style="width:180px;height:180px;object-fit:cover">';
+  $("contactList").innerHTML =
+    '<a href="tel:'+CONTACT.phone.replace(/-/g,"")+'"><span>电话</span>'+esc(CONTACT.phone)+'</a>'
+    + '<a href="mailto:'+CONTACT.email+'"><span>邮箱</span>'+esc(CONTACT.email)+'</a>'
+    + '<div><span>微信</span>'+esc(CONTACT.wechat)+'</div>'
+    + '<a href="'+CONTACT.xiaohongshu+'" target="_blank" rel="noopener"><span>小红书</span>'+esc(CONTACT.xiaohongshuLabel)+' →</a>';
+  $("steps").innerHTML = STEPS.map(function(s){ return '<div class="step reveal"><b>'+s.n+'</b><h3>'+s.t+'</h3><p>'+s.d+'</p></div>'; }).join("");
+  renderWorks(); renderCases(); renderGoods(); renderAccount(); renderStats();
+  var u = currentUser();
+  if (u) $("inqName").value = u.nickname;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  window.addEventListener("scroll", function(){ $("nav").classList.toggle("scrolled", window.scrollY > 40); });
+  window.addEventListener("hashchange", applyRoute);
+  $("searchBtn").addEventListener("click", doSearch);
+  $("searchInput").addEventListener("keydown", function(e){ if (e.key === "Enter") doSearch(); });
+  $("searchInput").addEventListener("input", function(){ if (!$("searchInput").value.trim()){ state.query = ""; state.page = 1; renderWorks(); } });
+  /* 登录/注册 */
+  $("tabLogin").addEventListener("click", function(){ switchAuthTab("login"); });
+  $("tabRegister").addEventListener("click", function(){ switchAuthTab("register"); });
+  $("authX").addEventListener("click", closeAuth);
+  $("authModal").addEventListener("click", function(e){ if (e.target === $("authModal")) closeAuth(); });
+  $("loginForm").addEventListener("submit", doLogin);
+  $("registerForm").addEventListener("submit", doRegister);
+  $("forgotPw").addEventListener("click", function(){ toast("演示版本未开放自助找回，请联系站长"); });
+  /* 咨询表单 */
+  $("inqForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = $("inqName").value.trim(), contact = $("inqContact").value.trim(), content = $("inqContent").value.trim();
+    var ok = true;
+    if (!name){ setErr("e-inqName","姓名必填"); ok = false; } else setErr("e-inqName","");
+    if (!contact || !validAccount(contact)){ setErr("e-inqContact","请输入 11 位手机号或有效邮箱"); ok = false; } else setErr("e-inqContact","");
+    if (!content){ setErr("e-inqContent","请简单说说项目需求"); ok = false; } else setErr("e-inqContent","");
+    if (!ok) return;
+    var u2 = currentUser();
+    if (!u2){ openAuth("login"); toast("提交咨询请先登录"); return; }
+    state.inquiries.push({ id: uid("q"), account: u2.account, nickname: u2.nickname, contact: contact, content: content, createdAt: nowStr(), status: "待回复" });
+    saveAll(); $("inqContent").value = ""; toast("已收到，我会尽快联系你"); renderAccountView();
+  });
+  /* 详情 / 图集 */
+  $("detailX").addEventListener("click", closeDetail);
+  $("detailModal").addEventListener("click", function(e){ if (e.target === $("detailModal")) closeDetail(); });
+  $("lbX").addEventListener("click", closeLightbox);
+  $("lbPrev").addEventListener("click", function(){ lbStep(-1); });
+  $("lbNext").addEventListener("click", function(){ lbStep(1); });
+  $("lightbox").addEventListener("click", function(e){ if (e.target === $("lightbox")) closeLightbox(); });
+  /* 确认弹窗 */
+  $("confirmCancel").addEventListener("click", function(){ $("confirmModal").classList.remove("open"); document.body.style.overflow = ""; });
+  $("confirmOk").addEventListener("click", function(){ if (confirmCb) confirmCb(); });
+  $("confirmModal").addEventListener("click", function(e){ if (e.target === $("confirmModal")){ $("confirmModal").classList.remove("open"); document.body.style.overflow = ""; } });
+  /* 个人中心退出 */
+  $("acctLogoutBtn").addEventListener("click", logout);
+  /* 头像上传 */
+  $("avatarInput").addEventListener("change", function(){
+    var f = this.files && this.files[0]; if (!f) return;
+    var u3 = currentUser(); if (!u3) return;
+    if (f.size > 2 * 1024 * 1024){ toast("图片请小于 2MB"); this.value = ""; return; }
+    if (!/image\/(jpeg|png)/.test(f.type)){ toast("仅支持 jpg / png 图片"); this.value = ""; return; }
+    var r = new FileReader();
+    r.onload = function(){ u3.avatar = r.result; saveAll(); renderAccount(); renderAccountView(); toast("头像已更新"); };
+    r.readAsDataURL(f); this.value = "";
+  });
+  /* 封面 / 图集上传（作品管理表单内） */
+  $("coverInput").addEventListener("change", function(){
+    var f = this.files && this.files[0]; if (!f) return;
+    if (!/image\/(jpeg|png)/.test(f.type)){ toast("仅支持 jpg / png 图片"); this.value = ""; return; }
+    compressImage(f, function(data){ state.wfCoverData = data; var n = $("wfCoverNote"); if (n) n.textContent = "已上传封面图（已压缩）"; toast("封面图已上传"); });
+    this.value = "";
+  });
+  $("galleryInput").addEventListener("change", function(){
+    var files = this.files; if (!files || !files.length) return;
+    var pending = files.length;
+    Array.prototype.forEach.call(files, function(f){
+      if (!/image\/(jpeg|png)/.test(f.type)){ pending--; return; }
+      compressImage(f, function(data){ state.wfGalleryData.push(data); pending--; if (pending === 0){ var n = $("wfGalleryNote"); if (n) n.textContent = "已上传 " + state.wfGalleryData.length + " 张图集图片"; toast("图集图片已上传"); } });
+    });
+    this.value = "";
+  });
+  /* 悬浮快捷入口 */
+  $("floatTop").addEventListener("click", function(){ window.scrollTo({ top: 0, behavior: "smooth" }); });
+  $("floatContact").addEventListener("click", function(){ routeTo("profile"); setTimeout(function(){ var el = $("contact"); if (el) el.scrollIntoView({ behavior: "smooth" }); }, 80); });
+  $("floatMobile").addEventListener("click", function(){ toast("手机微官网：用手机浏览器打开本页即可"); });
+  /* Esc 关闭所有弹窗 */
+  document.addEventListener("keydown", function(e){
+    if (e.key !== "Escape") return;
+    closeLightbox(); closeDetail(); closeAuth();
+    var cm = $("confirmModal"); if (cm.classList.contains("open")){ cm.classList.remove("open"); document.body.style.overflow = ""; }
+    var d = $("acctDrop"); if (d) d.classList.remove("open");
+  });
+  applyRoute();
+}
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
